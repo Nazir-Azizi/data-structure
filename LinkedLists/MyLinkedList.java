@@ -12,55 +12,57 @@ class MyLinkedList<T extends Object>{
             this.next = null;
         }
     }
-    // numberOfCurrentNodes keeps track of the number of nodes presesnt inside the MyLinkedList
-    private int numberOfCurrentNodes = 0;
+    // size keeps track of the number of nodes presesnt inside the MyLinkedList
+    private int size = 0;
     // head is the begining of MyLinkedList
     private Node head = null;
+    private Node tail = null;
+
+    public int getSize(){
+        return size;
+    }
     /*
-     * addBeginning adds the new Node at the beginning of MyLinkedList
+     * returns if the MyLinkedList is empty
+     */
+    public boolean isEmpty(){
+        return head == null;
+    }
+    /*
+     * addFirst adds the new Node at the beginning of MyLinkedList
      * It works by assigning the head to newNode's next and then
      * assigning newNode to head
      */
-    public boolean addBeginning(T data){
+    public boolean addFirst(T data){
         Node newNode = new Node(data);
-        numberOfCurrentNodes++;
+        if (head == null){
+            head = newNode;
+            tail = newNode;
+            return true;
+        }
         newNode.next = head;
         head = newNode;
+        size++;
         return true;
     }
     /*
-     * addEnd adds the new Node at the end of MyLinkedList chain
+     * addLast adds the new Node at the end of MyLinkedList chain
      * First it goes to the end of the list and assign the newNode to
      * the last Node's next
      */
-    public boolean addEnd(T data){
+    public boolean addLast(T data){
         Node newNode = new Node(data);
-        numberOfCurrentNodes++;
         if (head == null){
             head = newNode;
+            tail = newNode;
             return true;
         }
         Node current = head;
         while(current.next != null)
             current = current.next;
         current.next = newNode;
+        tail = newNode;
+        size++;
         return true;
-    }
-    /*
-     * display prints all the nodes to console by iterating over
-     * MyLinkedList until it reaches null
-     */
-    public void display(){
-        Node current = head;
-        while (current != null){
-            System.out.print(current.data + " -> ");
-            current = current.next;
-        }
-        System.out.println("null");
-    }
-
-    public int getCurrentNumberOfNodes(){
-        return numberOfCurrentNodes;
     }
     /*
      * insertAtIndex adds new node at the specified location
@@ -72,16 +74,20 @@ class MyLinkedList<T extends Object>{
         if (location < 1){
             return false;
         }
-        int numberOfCurrentNodess = getCurrentNumberOfNodes();
-        Node temp = new Node(data);
-        if (location == 1){
-            temp.next = head;
-            head = temp;
-        }else if (location > numberOfCurrentNodess){
+        Node newNode = new Node(data);
+        if (head == null){
+            head = newNode;
+            tail = newNode;
+        }
+        else if (location == 1){
+            newNode.next = head;
+            head = newNode;
+        }else if (location > size){
             Node current = head;
             while(current.next != null)
-                current = current.next;
-            current.next = temp;
+            current = current.next;
+            current.next = newNode;
+            tail = newNode;
         }else{
             int count = 1;
             Node current = head;
@@ -90,9 +96,37 @@ class MyLinkedList<T extends Object>{
                 current = current.next;
             }
             Node nextNode = current.next;
-            current.next = temp;
-            temp.next= nextNode;
+            current.next = newNode;
+            newNode.next= nextNode;
         }
+        size++;
         return true;
+    }
+    /*
+     * returns the data of the first node (head)
+     */
+    public T getFirst(){
+        return head.data;
+    }
+    /*
+     * returns the data of the last node (tail)
+     */
+    public T getLast(){
+        return tail.data;
+    }
+    /*
+     * toString method is overriden to print all elements to console
+     * it iterates over the elements until it reaches null
+     */
+    @Override
+    public String toString(){
+        Node current = head;
+        String str = "";
+        while (current != null){
+            str += current.data + " -> ";
+            current = current.next;
+        }
+        str += "null";
+        return str;
     }
 }
