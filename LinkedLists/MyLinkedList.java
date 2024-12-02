@@ -1,3 +1,6 @@
+import java.util.Collection;
+import java.util.Iterator;
+
 class MyLinkedList<T extends Object>{
     /*
      * Node is an inner class inside MyLinkedList class
@@ -113,6 +116,52 @@ class MyLinkedList<T extends Object>{
      */
     public T getLast(){
         return tail.data;
+    }
+    /*
+     * addAll method accepts a Collection and then adds
+     * all the elements inside that Collection to MyLinkedList by
+     * getting the iterator and iterating over the collection
+     */
+    public boolean addAll(Collection<T> collection){
+        Iterator<T> it = collection.iterator();
+        Node current = tail;
+        while(it.hasNext()){
+            Node newNode = new Node(it.next());
+            current.next = newNode;
+            current = newNode;
+            size++;
+        }
+        tail = current;
+        return true;
+    }
+    /*
+     * getAt method gets the data of a node at a specific index
+     * the implementation is straightforward
+     */
+    public T getAt(int index){
+        if (index < 1 || index > size){
+            return null;
+        }
+        Node current = head;
+        int count = 1;
+        while (count < index){
+            current = current.next;
+            count++;
+        }
+        return current.data;
+    }
+    /*
+     * contains checks if a there exist any element 
+     * with the specified data
+     */
+    public boolean contains(T data){
+        Node current = head;
+        while (current != null){
+            if (current.data.equals(data))
+                return true;
+            current = current.next;
+        }
+        return false;
     }
     /*
      * toString method is overriden to print all elements to console
