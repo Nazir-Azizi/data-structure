@@ -196,7 +196,10 @@ class MyLinkedList<T extends Object>{
         size--;
         return true;
     }
-    
+    /*
+     * removeAt method removes the specified node
+     * from the MyLinkedList
+     */
     public boolean removeAt(int index){
         if (index > size || index < 1){
             return false;
@@ -215,6 +218,37 @@ class MyLinkedList<T extends Object>{
         current.next = current.next.next;
         size--;
         return true;
+    }
+    /*
+     * removeAll removes all the nodes form the linkedList
+     * it will initalize both head and tail to null and other
+     * nodes will be distroyed by GC because there will be no
+     * refrence variable to refer to the first node, so the first
+     * node will be distroyed and there will be no refrence variable to
+     * refer to the second node and this way all nodes will be destroyed
+     */
+    public boolean removeAll(){
+        head = null;
+        tail = null;
+        return true;
+    }
+    public void reverse(){
+        if (head == null || size == 1)
+            return;
+        Node current, next, prev;
+        current = head.next;
+        prev = head;
+        next = current.next;
+
+        prev.next = null;
+        while (next != null){
+            current.next = prev;
+            prev = current;
+            current = next;
+            next = next.next;
+        }
+        current.next = prev;
+        head = current;
     }
     /*
      * toString method is overriden to print all elements to console
