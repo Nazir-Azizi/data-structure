@@ -196,6 +196,26 @@ class MyLinkedList<T extends Object>{
         size--;
         return true;
     }
+    
+    public boolean removeAt(int index){
+        if (index > size || index < 1){
+            return false;
+        }
+        if (index == 1)
+            return removeFirst();
+        if (index == size)
+            return removeLast();
+        
+        int count = 1;
+        Node current = head;
+        while (count < index - 1){
+            current = current.next;
+            count++;
+        }
+        current.next = current.next.next;
+        size--;
+        return true;
+    }
     /*
      * toString method is overriden to print all elements to console
      * it iterates over the elements until it reaches null
