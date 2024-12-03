@@ -164,6 +164,39 @@ class MyLinkedList<T extends Object>{
         return false;
     }
     /*
+     * removeFirst removes the first node if it exists
+     */
+    public boolean removeFirst(){
+        if (head == null)
+            return false;
+        if (size == 1){
+            tail = null;    
+        }
+        head = head.next;
+        size--;
+        return true;
+    }
+    /*
+     * removeLast removes the last node if it exist
+     */
+    public boolean removeLast(){
+        if (tail == null)
+            return false;
+        if (size == 1){
+            head = null;
+            tail = null;
+            size--;
+            return true;
+        }
+        Node current = head;
+        while (current.next.next != null)
+            current = current.next;
+        current.next = null;
+        tail = current;
+        size--;
+        return true;
+    }
+    /*
      * toString method is overriden to print all elements to console
      * it iterates over the elements until it reaches null
      */
